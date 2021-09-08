@@ -1,0 +1,40 @@
+1. What tech stack will you use for your final project?
+A: Node/React
+
+2. Is the front-end UI or the back-end going to be the focus of your project?
+A: I suppose this will be a full stack application.
+
+
+3. Will this be a website? A mobile app? Something else?
+A: A website / web application
+
+4. What goal will your project be designed to achieve?
+A: I want to make asking questions, and seeing the reply to those questions during a presentation easier. 
+Annotating and marking the speaker and their speech takes a person carefully going over it, but the questions have very clear break points and topics. 
+My simple application will automatically make those break points so you or anyone else can easily see your question answered in the recording at any time.
+
+5. What kind of users will visit your app? In other words, what is the demographic of
+your users?
+A: The general demographic is working professionals. Almost everyone has sat through a presentation of some sort, and a lot of people are the ones giving the presentation,
+answering the same questions afterwards over and over again.
+
+6. What data do you plan on using? How are you planning on collecting your data?
+A: I plan to use the presenters webcam to record the presentation, a simple backend of some sort to store and serve the questions as they are asked by the audience and 
+answered by the presenter, and a secondary file, maybe JSON, to store the benchmarks. 
+
+7. In brief, outline your approach to creating your project. Answer
+questions like the ones below, but feel free to add more information:
+a. What does your database schema look like?
+    It would be incredibly simple. Storage of video, benchmark pairs, and storage of questions in the order they were asked in.
+b. What kinds of issues might you run into with your API? 
+    I am currently unsure how I would record the presentation, as I have not used any of those tools before. 
+    Also, storage of video on cloud servers is pretty expensive, so I may just store them locally (for demo-presentation purposes) instead.
+c. Is there any sensitive information you need to secure?
+    There is a separation between presenter and audience, and I don't want anyone to be able to just jump in and override the presenter. Other than that, no.
+d. What will the user flow look like?
+    2 user types. Presenter, and Audience Member. Presenter signs in as presenter using some sort of code they set up before hand. They record their presentation,
+     then press 'next question' when they get to that part. Audience Member spectates presentation using the watch link the presenter provides. They can submit a question in the 
+     question box at any time. When any question is answered, it makes a clickable time stamp in the video history. Clicking on that stamp will play the recording of the video, 
+     starting at the selected question.
+f. What features make your site more than a CRUD app? What are your stretch goals?
+    There are no, if any, CRUD operations currently.
