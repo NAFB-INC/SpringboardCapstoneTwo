@@ -5,6 +5,7 @@ import MakePresentationMenu from "../menus/MakePresentationMenu";
 import PresenterMenu from "../menus/PresenterMenu";
 import JoinPresentationMenu from "../menus/JoinPresentationMenu";
 import AudienceMenu from "../menus/AudienceMenu";
+import VideoSelectionForm from "../forms/VideoSelectionForm";
 
 function Routes() {
 
@@ -25,6 +26,9 @@ function Routes() {
             </Route>
             <Route exact path="/audience/:presID">
                 <AudienceMenu />
+            </Route>
+            <Route exact path="/audience/past">
+                <VideoSelectionForm />
             </Route>
 
 
