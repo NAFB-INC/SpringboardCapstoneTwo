@@ -26,12 +26,12 @@ function Home() {
         }else if(pvA === "Presenter"){
             return (
                 <div>
-                    <Link to={`/presenter`} onClick={()=>setStage(2)}>
+                    <Link to={`/presenter/create`} onClick={()=>setStage(2)}>
                         <div>
                             I want to create or schedule a new presentation!
                         </div>
                     </Link>
-                    <Link to={`/presenter`} onClick={()=>setStage(3)}>
+                    <Link to={`/presenter`} onClick={()=>setStage(1)}>
                         <div>
                             I want to prepare or rejoin a presentation that was already made!
                         </div>
