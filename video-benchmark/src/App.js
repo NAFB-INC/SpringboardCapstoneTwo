@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState,useEffect,useRef }  from "react";
+import React, { useEffect, useState }  from "react";
 import { BrowserRouter } from "react-router-dom";
 import Navigation from "./routes/Navigation";
 import Routes from "./routes/Routes";
@@ -14,19 +14,19 @@ function App() {
     3 = During presentation
     4 = After presentation
     */
-    const [stage,setStage] = useState(1);
+    const [stage,setStage] = useState(0);
     const [pvA,setPvA] = useState(null);
     const [questions,setQuestions] = useState([]);
-    // const API = useRef();
+    const [baseURL] = useState("http://localhost:3000");
 
-    // useEffect(()=>{
-    //     API.current = new VideoAPI();
-    // },[]);
-    
+    useEffect(()=>{
+        VideoAPI.resetCodeLibrary();
+    },[]);
+
     return (
         <div className="App">
             <BrowserRouter>
-                <UserContext.Provider value={{ pvA, setPvA, stage, setStage, questions, setQuestions}}>
+                <UserContext.Provider value={{ pvA, setPvA, stage, setStage, questions, setQuestions,baseURL}}>
                     <div>
                         <Navigation />
                         <Routes />

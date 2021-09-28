@@ -26,7 +26,7 @@ function Home() {
         }else if(pvA === "Presenter"){
             return (
                 <div>
-                    <Link to={`/presenter/create`} onClick={()=>setStage(2)}>
+                    <Link to={`/presenter/create`} onClick={()=>{setStage(2);sessionStorage.clear()}}>
                         <div>
                             I want to create or schedule a new presentation!
                         </div>

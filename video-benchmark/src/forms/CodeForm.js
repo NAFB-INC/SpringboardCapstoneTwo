@@ -5,7 +5,7 @@ import VideoAPI from "../api/VideoAPI";
 
 function AudienceCodeForm({ setCode, presenter }) {
     const { setStage } = useContext(UserContext);
-    const [errors,setErrors] = useState(null);
+    const [errors,setErrors] = useState([]);
     const [formData, handleChange, resetForm] = useFields({
         audience_code: '',
         presenter_pass: ''
@@ -19,21 +19,27 @@ function AudienceCodeForm({ setCode, presenter }) {
             return (await VideoAPI.findIfValidCode(formData.audience_code,formData.presenter_pass));
         }
 
-        if(presenter){
-            if(checkCode()){
-                setCode(formData.audience_code);
-                setStage(3);
-            }else{
-                setErrors(["Code not found!"])
+        let valid;
+        checkCode().then((tOrF)=>{
+            valid=tOrF;
+
+            if(presenter){
+                if(valid){
+                    setCode(formData.audience_code);
+                    setStage(3);
+                }else{
+                    setErrors(["Code not found!"])
+                }
+            }else {
+                if(valid){
+                    setCode(formData.audience_code);
+                    setStage(3);
+                }else{
+                    setErrors(["Code not found!"])
+                }
             }
-        }else {
-            if(checkCode()){
-                setCode(formData.audience_code);
-                setStage(3);
-            }else{
-                setErrors(["Code not found!"])
-            }
-        }
+        });
+
         resetForm();
     }
 
@@ -44,12 +50,12 @@ function AudienceCodeForm({ setCode, presenter }) {
                 Please enter it here!
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="audience_code">Code: </label>
-                    <input name="audience_code" type="text" placeholder="abc123" value={formData.audience_code} onChange={handleChange}></input>
+                    <input autoComplete="audience-code" name="audience_code" type="text" placeholder="abc123" value={formData.audience_code} onChange={handleChange}></input>
                     <label htmlFor="presenter_pass">Password: </label>
-                    <input name="presenter_pass" type="password" placeholder="xyzpdq" value={formData.presenter_pass} onChange={handleChange}></input>
+                    <input autoComplete="presenter-password" name="presenter_pass" type="password" placeholder="xyzpdq" value={formData.presenter_pass} onChange={handleChange}></input>
                     <div>
                         {errors.map((e)=>(
-                            <li>{e}</li>
+                            <li className="error" key={`error${e}`}>{e}</li>
                         ))}
                     </div>
                     <button>Submit</button>
@@ -66,7 +72,7 @@ function AudienceCodeForm({ setCode, presenter }) {
                     <input name="audience_code" type="text" placeholder="abc123" value={formData.audience_code} onChange={handleChange}></input>
                     <div>
                         {errors.map((e)=>(
-                            <li>{e}</li>
+                            <li className="error" key={`error${e}`}>{e}</li>
                         ))}
                     </div>
                     <button>Submit</button>

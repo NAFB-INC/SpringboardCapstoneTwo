@@ -2,9 +2,10 @@ import React, { useContext,useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../hooks/UserContext";
 import CodeForm from "../forms/CodeForm";
+import VideoAPI from "../api/VideoAPI";
 
 function JoinPresentationMenu({myUser}) {
-    const { stage,setStage,API } = useContext(UserContext);
+    const { stage,setStage } = useContext(UserContext);
     const [code,setCode] = useState("");
     const [video,setVideo] = useState(false);
     const [user,setUser] = useState("");
@@ -12,27 +13,33 @@ function JoinPresentationMenu({myUser}) {
 
     useEffect(function getVideoByCode() {
         async function getVideo() {
-            let myVideo = await API.current.fetchVideo(code);
-            console.log(myVideo);
-            if(myVideo){
-                console.log("video: ",myVideo);
-                setVideo(myVideo);
+            let myVideo = await VideoAPI.fetchVideo(code);
+            console.log("fetched:",myVideo);
+            if(myVideo["current"]){
+                setVideo(myVideo["current"]);
+                if(user==="presenter") {
+                    sessionStorage.setItem('code',`${code}`);
+                    sessionStorage.setItem('secure_hash','not_secure');
+                }
+            } else if(myVideo["past_video"]){
+                setVideo(myVideo["past_video"]);
             }
         }
         if(code && stage > 2){
             getVideo();
         }
-      }, [code,stage,setStage,API]);
+      }, [code,stage,setStage,user]);
 
     useEffect(function determineMyUser(){
-        if(myUser==="presenter"){
+        if(window.location.href.includes("presenter") && stage !== 3){
             setUser(myUser);
             setStage(1);
         }
-        else if (myUser==="audience") {
+        else if (window.location.href.includes("audience") && stage !== 3) {
             setUser(myUser);
             setStage(2);
         }
+        console.log(window.location.href.includes("audience"))
     },[stage,setStage,setUser,myUser])
 
     function stageSelection(){
@@ -62,7 +69,7 @@ function JoinPresentationMenu({myUser}) {
                     <div>
                         Found a match!
                         <div>
-                            <div><Link to={`/${user}/${code}`}>{video.title} </Link> </div>
+                            <div><Link to={`/${user}/${code}`}> {video.title} </Link> </div>
                             <div>presented by {video.presenter.first} {video.presenter.last}</div>
                             <div><small>{video.duration}</small></div>
                         </div>
