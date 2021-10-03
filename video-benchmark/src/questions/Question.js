@@ -1,10 +1,10 @@
 import React from "react";
 
-function Question() {
+function Question({question}) {
 
     return (
         <div className="Question">
-            Question
+            {question}
         </div>
     );
 }

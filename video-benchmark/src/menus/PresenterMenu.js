@@ -7,6 +7,7 @@ import VideoAPI from "../api/VideoAPI";
 function PresenterMenu() {
     const { presID } = useParams();
     const [questions,setQuestions] = useState({});
+    const [time,setTime] = useState(0);
 
     useEffect(()=>{
         async function fetchQuestions(){
@@ -26,8 +27,8 @@ function PresenterMenu() {
             <div className="PresenterMenu">
                 PresenterMenu
                 <div> Presentation: {presID} </div>
-                <VideoBox user="presenter" presID={presID}/>
-                <QuestionBoxPresenter questions={questions}/>
+                <VideoBox user="presenter" presID={presID} setTime={setTime}/>
+                <QuestionBoxPresenter presID={presID} questions={questions} time={time}/>
             </div>
         );
     }else{

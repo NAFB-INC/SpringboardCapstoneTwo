@@ -27,16 +27,12 @@ function Routes() {
             <Route exact path="/audience">
                 <JoinPresentationMenu myUser={"audience"}/>
             </Route>
-            <Route exact path="/audience/:presID">
-                <AudienceMenu />
-            </Route>
             <Route exact path="/audience/past">
                 <VideoSelectionForm />
             </Route>
-
-
-
-
+            <Route exact path="/audience/:presID">
+                <AudienceMenu />
+            </Route>
             <Redirect to="/" />
         </Switch>
       </div>

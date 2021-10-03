@@ -5,7 +5,7 @@ import VideoAPI from "../api/VideoAPI";
 // 
 
 
-function Video({user,presID}) {
+function Video({user,presID,setTime}) {
 
     //node_media_server.run();
 
@@ -25,12 +25,12 @@ function Video({user,presID}) {
     useEffect(()=>{
         if(user === "presenter")
         {
-            const socket = new WebSocket("ws://localhost:3002");
-            socket.onopen = function(e) {
-                alert("[open] Connection established");
-                alert("Sending to server");
-                socket.send("My name is John");
-            };
+            // const socket = new WebSocket("ws://localhost:3002");
+            // socket.onopen = function(e) {
+            //     alert("[open] Connection established");
+            //     alert("Sending to server");
+            //     socket.send("My name is John");
+            // };
             let camera_button = document.querySelector("#start-camera");
             let camera_button_stop = document.querySelector("#stop-camera");
             let start_button = document.querySelector("#start-record");
@@ -75,9 +75,9 @@ function Video({user,presID}) {
                     // blobs_recorded.push(e.data);
                     try{
                         if (e.data && e.data.size > 0) {
-                            socket.send(e.data);
+                            // socket.send(e.data);
+                            VideoAPI.addContent(presID,e.data);
                         }
-                        // VideoAPI.addContent(presID,e.data);
                     }catch(err){
                         console.log(err);
                     }
@@ -133,6 +133,7 @@ function Video({user,presID}) {
             let video_playback = document.querySelector("#video-playback");
             console.log(`attempting to play blob ${i}`)
             try{
+                setTime(i*2);
                 // console.log("new source: ",URL.createObjectURL(inputBlobs[i]))
                 console.log(inputBlobs[i])
                 // video_playback.src = URL.createObjectURL(inputBlobs[i]);

@@ -147,10 +147,25 @@ class VideoAPI {
         this.questions=data_questions.data;
 
         if(this.questions[code]){
-            return {"questions":this.questions[code]};
+            return this.questions[code];
         }else{
-            return null
+            return {}
         }
+    }
+
+    static async addQuestion(code,questionText){
+        //redundant code to ensure api consistency, but kept here just in case of refactoring later
+        let data_questions = await axios.get(`${this.BASE_URL}questions`);
+        this.questions=data_questions.data;
+
+
+        if(this.questions[code]){
+            let id = Object.keys(this.questions[code]).length +1;
+            this.questions[code][id] = questionText;
+        }else{
+            this.questions[code] = {1:questionText};
+        }
+        await axios.post(`${this.BASE_URL}questions`,this.questions);
     }
 
     static async createPresentation(inputValues){
@@ -213,6 +228,29 @@ class VideoAPI {
             }
             variable=true;
         }
+    }
+
+    static async addBenchmark(code,num,time){
+        if(this.upcoming[code]){
+            console.log(num,time);
+            this.upcoming[code]["benchmarks"].push({
+                question_id:num,
+                time_stamp:time
+            }) ;
+        }else{
+            throw new Error("presentation doesn't exist!");
+        }
+        await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
+    }
+
+    static async removeBenchmark(code,num){
+        if(this.upcoming[code]){
+            delete this.upcoming[code]["benchmarks"][num];
+            delete this.questions[code][num];
+        }else{
+            throw new Error("presentation doesn't exist!");
+        }
+        await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
     }
 
 }
