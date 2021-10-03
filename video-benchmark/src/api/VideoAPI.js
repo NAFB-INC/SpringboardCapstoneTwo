@@ -1,4 +1,7 @@
+const axios = require("axios");
+
 class VideoAPI {
+    static BASE_URL = "http://localhost:3001/"
     static codes = {};
     static videos = [
         {
@@ -9,7 +12,18 @@ class VideoAPI {
                 last:"Jacob"
             },
             code:"abc123",
-            description:""
+            description:"",
+            content:[],
+            benchmarks:[
+                {
+                    question_id:1,
+                    time_stamp:120
+                },
+                {
+                    question_id:2,
+                    time_stamp:160
+                }
+            ]
         }
     ]
     static upcoming = {
@@ -22,19 +36,72 @@ class VideoAPI {
             description:"A simple sample simile",
             created:"now",
             code:"ZAfZ8n",
-            pass:"123"
+            pass:"123",
+            content:{
+                blobs:[],
+                lock:false
+            },
+            benchmarks:[]
         }
     };
 
-    static async resetCodeLibrary(){
+    static questions = {
+        "abc123":{
+            1:"Why is the sky blue?",
+            2:"What is 10 times 10?"
+        }
+    }
+
+    static async addContent(code,blobToAdd){
+        console.log("adding blob to api");
+        if(this.upcoming[code]){
+            let video = this.upcoming[code];
+            while(video.content.lock){
+            }
+            video.content.lock=true;
+            video.content.blobs.push(blobToAdd);
+            video.content.lock=false;
+        }
+        await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
+        console.log("Current data: ",this.upcoming[code].content.blobs)
+    }
+
+    static async fetchLiveContent(code,index){
+        let data_upcoming = await axios.get(`${this.BASE_URL}upcoming`);
+        this.upcoming=data_upcoming.data;
+
+        if(this.upcoming[code]){
+            let video = this.upcoming[code];
+            let res = video.content.blobs[index];
+            if(res){
+                return res;
+            }else{
+                return null;
+            }
+        }
+    }
+
+    static async resetDataLibrary(){
         console.log('resetting library');
-        this.codes={};
+        let data_codes = await axios.get(`${this.BASE_URL}codes`);
+        let data_videos = await axios.get(`${this.BASE_URL}videos`);
+        let data_upcoming = await axios.get(`${this.BASE_URL}upcoming`);
+        let data_questions = await axios.get(`${this.BASE_URL}questions`);
+        this.codes=data_codes.data;
+        this.videos=data_videos.data;
+        this.upcoming=data_upcoming.data;
+        this.questions=data_questions.data;
+
         this.videos.forEach((video)=>
             this.codes[video.code]=1
         )
         Object.entries(this.upcoming).forEach((key)=>{
             this.codes[key[0]]=1;
         })
+
+        await axios.post(`${this.BASE_URL}codes`,this.codes);
+
+        console.log(this.upcoming);
     }
 
     static async findIfValidCode(code,pass=null){
@@ -60,18 +127,30 @@ class VideoAPI {
     }
 
     static async fetchVideo(code){
-        console.log("fetching video..")
+        console.log("fetching video..");
+
         if(this.upcoming[code]){
             console.log(this.upcoming[code])
-            return {"current":this.upcoming[code]};
+            return {"video":this.upcoming[code],"current":true};
         }
         for(let video of this.videos){
             if(video.code === code) {
                 console.log("returning video", video)
-                return {"past_video":video};
+                return {"video":video,"past_video":true};
             }
         }
         return null;
+    }
+
+    static async fetchQuestions(code){
+        let data_questions = await axios.get(`${this.BASE_URL}questions`);
+        this.questions=data_questions.data;
+
+        if(this.questions[code]){
+            return {"questions":this.questions[code]};
+        }else{
+            return null
+        }
     }
 
     static async createPresentation(inputValues){
@@ -103,6 +182,9 @@ class VideoAPI {
         this.upcoming[newCode] = newPresentation;
         console.log(`returning code ${newCode}`);
         console.log("upcoming: ",this.upcoming);
+        await axios.post(`${this.BASE_URL}codes`,this.codes);
+        await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
+
         return(newCode);
     }
 

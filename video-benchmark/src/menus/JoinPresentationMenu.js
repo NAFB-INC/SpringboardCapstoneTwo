@@ -16,13 +16,13 @@ function JoinPresentationMenu({myUser}) {
             let myVideo = await VideoAPI.fetchVideo(code);
             console.log("fetched:",myVideo);
             if(myVideo["current"]){
-                setVideo(myVideo["current"]);
+                setVideo(myVideo["video"]);
                 if(user==="presenter") {
                     sessionStorage.setItem('code',`${code}`);
                     sessionStorage.setItem('secure_hash','not_secure');
                 }
             } else if(myVideo["past_video"]){
-                setVideo(myVideo["past_video"]);
+                setVideo(myVideo["video"]);
             }
         }
         if(code && stage > 2){

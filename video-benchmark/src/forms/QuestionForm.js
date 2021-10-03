@@ -1,6 +1,6 @@
 import React from "react";
 
-function QuestionForm() {
+function QuestionForm({questions,setQuestions}) {
 
     return (
         <div className="QuestionForm">

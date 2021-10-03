@@ -1,0 +1,50 @@
+{
+    "codes" : {},
+    "videos" : [
+        {
+            "title":"How to Program",
+            "duration":"5:20",
+            "presenter":{
+                "first":"John",
+                "last":"Jacob"
+            },
+            "code":"abc123",
+            "description":"",
+            "content":[],
+            "benchmarks":[
+                {
+                    "question_id":1,
+                    "time_stamp":120
+                },
+                {
+                    "question_id":2,
+                    "time_stamp":160
+                }
+            ]
+        }
+    ],
+    "upcoming" : {
+        "ZAfZ8n": {
+            "title":"My Presentation Title",
+            "presenter":{
+                "first":"Bob",
+                "last":"Bings"
+            },
+            "description":"A simple sample simile",
+            "created":"now",
+            "code":"ZAfZ8n",
+            "pass":"123",
+            "content":{
+                "blobs":[],
+                "lock":false
+            },
+            "benchmarks":[]
+        }
+    },
+    "questions" : {
+        "abc123":{
+            "1":"Why is the sky blue?",
+            "2":"What is 10 times 10?"
+        }
+    }
+}

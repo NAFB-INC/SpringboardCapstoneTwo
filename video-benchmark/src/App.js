@@ -16,17 +16,17 @@ function App() {
     */
     const [stage,setStage] = useState(0);
     const [pvA,setPvA] = useState(null);
-    const [questions,setQuestions] = useState([]);
     const [baseURL] = useState("http://localhost:3000");
 
     useEffect(()=>{
-        VideoAPI.resetCodeLibrary();
-    },[]);
+        VideoAPI.resetDataLibrary();
+    },[])
+
 
     return (
         <div className="App">
             <BrowserRouter>
-                <UserContext.Provider value={{ pvA, setPvA, stage, setStage, questions, setQuestions,baseURL}}>
+                <UserContext.Provider value={{ pvA, setPvA, stage, setStage, baseURL}}>
                     <div>
                         <Navigation />
                         <Routes />

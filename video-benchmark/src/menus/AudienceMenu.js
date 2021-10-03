@@ -13,7 +13,7 @@ function AudienceMenu() {
         <div className="AudienceMenu">
             Audience Menu
             <div> Presentation: {presID} </div>
-            <VideoBox/>
+            <VideoBox user="audience" presID={presID}/>
             <QuestionBoxAudience questions={questions} setQuestions={setQuestions}/>
         </div>
     );
