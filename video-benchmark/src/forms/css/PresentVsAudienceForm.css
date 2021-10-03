@@ -1,0 +1,45 @@
+.PresentVsAudienceForm{
+    font-size:65%;
+    font-style: initial;
+    margin-top:2%;
+}
+
+.major-choice-2{
+    margin-left:10%;
+    margin-right:10%;
+    margin-top:5%;
+}
+
+.major-choice-btn{
+    font-size: 30px;
+    font-family: Raleway;
+    line-height: 500%;
+    padding: .618em 1em;
+    border-radius: 10px 10px 12px 12px;
+    box-shadow:
+      0px 8px 0px 0px #94585a, /* button thickness */
+      0px 0 20px rgba(255,255,255,.2) inset, /* inner glow */
+      2px 30px 0px rgba(255,255,255,.1) inset, /* sublte reflection */
+      5px 15px 30px -10px #000; /* dark shadow underneath */
+    border: 2px solid #94585a;
+    cursor: pointer;
+    background: #A26769;
+    color: #ecf0f1;
+    text-shadow: 1px 1px 1px #34495e;
+    transform: rotateX(5deg);
+    margin: 1% 1%;
+    width:40%;
+    text-align: center;
+  }
+
+  .major-choice-btn:focus{
+    box-shadow:
+      0px 8px 0px 0px #a05f62, /* button thickness */
+      0px 0 20px rgba(255,255,255,.2) inset, /* inner glow */
+      2px 30px 0px rgba(255,255,255,.1) inset, /* sublte reflection */
+      5px 15px 30px -10px #000; /* dark shadow underneath */
+    border: 2px solid #a05f62;
+    background: #865556;
+    color: #d9dedf;
+    text-shadow: 1px 1px 1px #34495e;
+  }

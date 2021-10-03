@@ -1,0 +1,57 @@
+.home{
+    position:absolute;
+    margin-top:5%;
+    margin-left:5%;
+    margin-right:5%;
+    padding-top:2%;
+    height:70%;
+    width:88%;
+    border:5px solid #6D2E46;
+    background-color: #ECE2D0;
+}
+
+#welcome{
+    font-size:300%;
+    font-style: oblique;
+}
+
+.major-choice-2{
+    margin-left:10%;
+    margin-right:10%;
+    margin-top:5%;
+}
+
+.major-choice-btn-home{
+    font-size: 300%;
+    font-family: Raleway;
+    line-height: 140%;
+    padding: .618em 1em;
+    border-radius: 10px 10px 12px 12px;
+    box-shadow:
+      0px 8px 0px 0px #94585a, /* button thickness */
+      0px 0 20px rgba(255,255,255,.2) inset, /* inner glow */
+      2px 30px 0px rgba(255,255,255,.1) inset, /* sublte reflection */
+      5px 15px 30px -10px #000; /* dark shadow underneath */
+    border: 2px solid #94585a;
+    cursor: pointer;
+    background: #A26769;
+    color: #ecf0f1;
+    text-shadow: 1px 1px 1px #34495e;
+    transform: rotateX(5deg);
+    margin: 1% 1%;
+    margin-top:1%;
+    width:45%;
+    text-align: center;
+  }
+
+  .major-choice-btn:focus{
+    box-shadow:
+      0px 8px 0px 0px #a05f62, /* button thickness */
+      0px 0 20px rgba(255,255,255,.2) inset, /* inner glow */
+      2px 30px 0px rgba(255,255,255,.1) inset, /* sublte reflection */
+      5px 15px 30px -10px #000; /* dark shadow underneath */
+    border: 2px solid #a05f62;
+    background: #865556;
+    color: #d9dedf;
+    text-shadow: 1px 1px 1px #34495e;
+  }

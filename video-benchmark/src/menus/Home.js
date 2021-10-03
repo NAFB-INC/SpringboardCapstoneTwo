@@ -1,3 +1,4 @@
+import "./css/Home.css";
 import React, { useContext }  from "react";
 import { Link } from "react-router-dom";
 import PresentVsAudienceForm from "../forms/PresentVsAudienceForm"
@@ -6,35 +7,55 @@ import UserContext from "../hooks/UserContext";
 function Home() {
     const { pvA, setPvA, setStage } = useContext(UserContext);
 
+    function changeCurrent(id){
+        var elements = document.getElementsByClassName("current");
+        if(elements.length > 0){
+            elements[0].classList.remove("current");
+        }
+        document.getElementById(id).classList.add("current");
+    }
+
     function presentMenu() {
         if(pvA === "Audience"){
             return (
-            <div>
-                <Link to={`/audience`} onClick={()=>setStage(2)}>
-                    <div>
-                        I want to watch a current or upcoming presentation!
-                    </div>
+            <div class="major-choice-2">
+                <Link to={`/audience`} onClick={()=>{
+                    changeCurrent("audience-link");
+                    setStage(2);
+                }}>
+                    <button class="major-choice-btn-home">
+                        I Want to Watch a Current or Upcoming Presentation!
+                    </button>
                 </Link>
-                <Link to={`/audience/past`} onClick={()=>setStage(4)}>
-                    <div>
-                        I want to review a past presentation!
-                    </div>
+                <Link to={`/audience/past`} onClick={()=>{
+                    changeCurrent("audience-link");
+                    setStage(4);
+                }}>
+                    <button class="major-choice-btn-home">
+                        I Want to Review a Past Presentation!
+                    </button>
                 </Link>
             </div>
             )
             
         }else if(pvA === "Presenter"){
             return (
-                <div>
-                    <Link to={`/presenter/create`} onClick={()=>{setStage(2);sessionStorage.clear()}}>
-                        <div>
-                            I want to create or schedule a new presentation!
-                        </div>
+                <div class="major-choice-2">
+                    <Link to={`/presenter/create`} onClick={()=>{
+                        changeCurrent("presenter-link");
+                        setStage(2);sessionStorage.clear();
+                        }}>
+                        <button class="major-choice-btn-home">
+                            I Want to <u>Create</u> or <u>Schedule</u> a New Presentation!
+                        </button>
                     </Link>
-                    <Link to={`/presenter`} onClick={()=>setStage(1)}>
-                        <div>
-                            I want to prepare or rejoin a presentation that was already made!
-                        </div>
+                    <Link to={`/presenter`} onClick={()=>{
+                        changeCurrent("presenter-link");
+                        setStage(1);
+                    }}>
+                        <button class="major-choice-btn-home">
+                            I Want to <u>Prepare</u> or <u>Rejoin</u> a Presentation that was Already Made!
+                        </button>
                     </Link>
                 </div>
                 )
@@ -42,9 +63,9 @@ function Home() {
     }
 
     return (
-        <div className="Home">
+        <div className="home">
             {pvA ? presentMenu() :             
-            <div> Welcome to the Presentation Benchmarker!
+            <div id="welcome"> Welcome to the Presentation Benchmarker!
             <PresentVsAudienceForm setPvA={setPvA}/>
             </div>}
         </div>
