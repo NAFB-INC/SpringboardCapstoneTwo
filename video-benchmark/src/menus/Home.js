@@ -24,7 +24,7 @@ function Home() {
                     setStage(2);
                 }}>
                     <button class="major-choice-btn-home">
-                        I Want to Watch a Current or Upcoming Presentation!
+                        I Want to <u>Watch</u> a Current or Upcoming Presentation!
                     </button>
                 </Link>
                 <Link to={`/audience/past`} onClick={()=>{
@@ -32,7 +32,7 @@ function Home() {
                     setStage(4);
                 }}>
                     <button class="major-choice-btn-home">
-                        I Want to Review a Past Presentation!
+                        I Want to <u>Review</u> a Past Presentation!
                     </button>
                 </Link>
             </div>
