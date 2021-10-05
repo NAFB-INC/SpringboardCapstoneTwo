@@ -6,6 +6,7 @@ import Routes from "./routes/Routes";
 import UserContext from "./hooks/UserContext";
 import VideoAPI from "./api/VideoAPI";
 
+//Main Application hub, acts as control mind.
 function App() {
     /*
     Stages:
@@ -14,10 +15,13 @@ function App() {
     3 = During presentation
     4 = After presentation
     */
+
+    //data for app-wide context
     const [stage,setStage] = useState(0);
     const [pvA,setPvA] = useState(null);
     const [baseURL] = useState("http://localhost:3000");
 
+    //fill local object 'database' for client
     useEffect(()=>{
         VideoAPI.resetDataLibrary();
     },[])

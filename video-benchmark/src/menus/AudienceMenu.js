@@ -5,11 +5,13 @@ import VideoBox from "../video/VideoBox";
 import QuestionBoxAudience from "../questions/QuestionBoxAudience";
 import VideoAPI from "../api/VideoAPI";
 
-
+//The main menu after it is determined the user is here to watch a presentation
 function AudienceMenu() {
     const { presID } = useParams();
     const [questions,setQuestions] = useState({});
 
+    //state for questions gets split into the two children components
+    //this function helps ensure api consistency though
     async function fetchQuestions(){
         let myQuestions = await VideoAPI.fetchQuestions(presID);
         if(myQuestions !== questions){

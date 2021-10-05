@@ -3,13 +3,16 @@ import React, { useEffect,useState } from "react";
 import VideoAPI from "../api/VideoAPI";
 // var ffmpeg = require('ffmpeg');
 // const node_media_server = require('./media_server');
-// 
 
 
+//the main video part of both the presenter and the audience
+//the presenter's video is getting a direct feed from their webcam
+//the audience's video is getting it for the websocket on the server.
 function Video({user,presID,setTime}) {
 
     //node_media_server.run();
 
+    //function for turning off your camera, because being watched at all times is spooky
     function stopBothVideoAndAudio(stream) {
         console.log("stream",stream);
         const tracks = stream.getTracks();
@@ -26,6 +29,8 @@ function Video({user,presID,setTime}) {
     useEffect(()=>{
         if(user === "presenter")
         {
+            //buttons only need their triggers if user is a presenter
+            //and only need to be added once, at the start
             let camera_button = document.querySelector("#start-camera");
             let camera_button_stop = document.querySelector("#stop-camera");
             let start_button = document.querySelector("#start-record");
@@ -36,6 +41,7 @@ function Video({user,presID,setTime}) {
             let blobs_recorded = [];
 
 
+            //sends frame by frame data to be sent
             const getFrame = () => {
                 const canvas = document.createElement('canvas');
                 canvas.width = video_player.videoWidth;
@@ -61,6 +67,7 @@ function Video({user,presID,setTime}) {
 
             console.log(`camerabutton: ${camera_button}`,`camerabuttonstop: ${camera_button_stop}`)
             
+            //starts camera
             camera_button.addEventListener('click', async function() {
                     camera_stream = await (navigator.mediaDevices.getUserMedia({ video: true, audio: true }));
                     video_player.srcObject = camera_stream;
@@ -69,6 +76,8 @@ function Video({user,presID,setTime}) {
                     video_player.hidden = false;
                     start_button.hidden=false;
                 });
+
+            //stops camera
             camera_button_stop.addEventListener('click', ()=>{
                     stopBothVideoAndAudio(video_player.srcObject);
                     video_player.srcObject=null;
@@ -78,6 +87,7 @@ function Video({user,presID,setTime}) {
                     start_button.hidden=true;
                 });
 
+            //starts streaming
             start_button.addEventListener('click', function() {
                 const WS_URL = "ws://localhost:3002"
                 const FPS = 10;
@@ -122,6 +132,8 @@ function Video({user,presID,setTime}) {
                 // start recording with each recorded blob having 1 second video
                 media_recorder.start(1000);
             });
+
+            //stops streaming
             stop_button.addEventListener('click', function() {
                 media_recorder.stop();
 
@@ -133,6 +145,8 @@ function Video({user,presID,setTime}) {
         }
         else if(user === "audience"){
             const img = document.querySelector('img');
+            let video_playback = document.querySelector("#video-playback");
+            let video_feedback = document.querySelector("#video-feedback");
         
             const WS_URL = 'ws://localhost:3002';
             const ws = new WebSocket(WS_URL);
@@ -140,24 +154,28 @@ function Video({user,presID,setTime}) {
             ws.onmessage = message => {
                 // set the base64 string to the src tag of the image
                 img.src = message.data;
+                if(img.hidden){
+                    img.hidden=false;
+                    video_feedback.innerText="";
+                }
             }
-            let video_playback = document.querySelector("#video-playback");
-            let video_feedback = document.querySelector("#video-feedback");
             if(!video_playback.srcObject){
-                video_feedback.innerText="The presentation hasn't started yet!"
+                video_feedback.innerText="The presentation hasn't started yet!";
             }
         }
     },[presID]);
 
     useEffect(()=>{ 
-        if(user==="audience"){
-            fetchBlobs();
-            setTimeout(()=>{
-                startPlayback();
-            },2000);
-        }
+        // if(user==="audience"){
+        //     fetchBlobs();
+        //     setTimeout(()=>{
+        //         startPlayback();
+        //     },2000);
+        // }
     },[]);
 
+    //UNUSED AT THE MOMENT
+    //gets new video blobs from the stream
     async function fetchNewBlob(id,index){
         let newBlob = await VideoAPI.fetchLiveContent(id,index);
 
@@ -168,6 +186,8 @@ function Video({user,presID,setTime}) {
         }
     }
 
+    //UNUSED AT THE MOMENT
+    //attempt to play back stream
     async function startPlayback(index=0){
 
         function playNextBlob(i){
@@ -199,6 +219,8 @@ function Video({user,presID,setTime}) {
         },2000)
     }
 
+    //UNUSED AT THE MOMENT
+    //timer for getting the blobs, needed async wrapper
     async function fetchBlobs(){
         setTimeout(()=>{
             try{
@@ -217,8 +239,6 @@ function Video({user,presID,setTime}) {
         if(user==="presenter"){
             return(
                 <div>
-                    <img id="playback" src=""></img>
-                    <img id="playback2" src=""></img>
                     <div id="presenter-video-bounder">
                         <div className="outer-border">
                             <div className="mid-border">
@@ -232,7 +252,7 @@ function Video({user,presID,setTime}) {
                     <button id="stop-camera" className="present-choice-btn" hidden>Stop Camera</button>
                     <button id="start-record" className="present-choice-btn" hidden>Start Recording</button>
                     <button id="stop-record" className="present-choice-btn" hidden>Stop Recording</button>
-                    {recording?<div>Recording</div>:null}
+                    {recording?<b class="text-danger Blink">&#11044;</b>:null}
                 </div>
             )
             // <a id="download-video" download="test.webm" hidden>Download Video</a>
@@ -244,7 +264,7 @@ function Video({user,presID,setTime}) {
                         <div className="outer-border">
                             <div className="mid-border">
                                 <div className="inner-border">
-                                    <img id="video-playback" src="" width="100%" height="100%"></img>
+                                    <img id="video-playback" src="" width="100%" height="100%" hidden></img>
                                     <video id="" src="" width="100%" height="100%"></video>
                                 </div>
                             </div>

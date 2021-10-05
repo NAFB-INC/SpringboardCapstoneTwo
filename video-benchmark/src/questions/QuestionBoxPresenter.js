@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import Question from "../questions/Question";
 import VideoAPI from "../api/VideoAPI";
 
-
+//the component for questions on the presenter side
 function QuestionBoxPresenter({presID,questions,time}) {
 
     const [num,setNum] = useState(0);
     const [currentQuestion,setCurrentQuestion] = useState(null);
 
+    //function for displaying the next question
     function setQuestion(){
         if(questions && questions[`${num+1}`])
         {
@@ -17,6 +18,8 @@ function QuestionBoxPresenter({presID,questions,time}) {
             setNum(num+1);
         }
     }
+
+    //function to skip a question for whatever reason the user may have
     function skipQuestion(){
         if(questions && questions[`${num+1}`])
         {
@@ -25,6 +28,8 @@ function QuestionBoxPresenter({presID,questions,time}) {
         }
     }
 
+    //mainly displays all questions currently asked, as well as a little explanation about what happens in the box 
+    //because it is not terribly clear if the box is empty what it is for at first.
     return (
         <div className="QuestionBoxPresenter">
             {!currentQuestion?

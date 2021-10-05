@@ -5,11 +5,13 @@ import VideoBox from "../video/VideoBox";
 import QuestionBoxPresenter from "../questions/QuestionBoxPresenter";
 import VideoAPI from "../api/VideoAPI";
 
+//The main menu after it is determined the user is here to present
 function PresenterMenu() {
     const { presID } = useParams();
     const [questions,setQuestions] = useState({});
     const [time,setTime] = useState(0);
 
+    //gets all the questions, and sets a timer to get any new ones every so often
     useEffect(()=>{
         async function fetchQuestions(){
             let myQuestions = await VideoAPI.fetchQuestions(presID);
@@ -23,6 +25,8 @@ function PresenterMenu() {
         fetchQuestions();
     },[presID]);
 
+    //ensures user is actually presenter, and isn't here by link.
+    //if they have not been cleared by codeform yet, redirects them there.
     if(sessionStorage.getItem('code')===presID && sessionStorage['secure_hash']==='not_secure'){
         return (
             <div className="PresenterMenu">

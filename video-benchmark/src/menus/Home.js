@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import PresentVsAudienceForm from "../forms/PresentVsAudienceForm"
 import UserContext from "../hooks/UserContext";
 
+//this home menu looks very different depending on user, and changes the stage based on buttons clicked.
+//these questions help determine what the user is here for, and direct them to the correct endpoint.
 function Home() {
     const { pvA, setPvA, setStage } = useContext(UserContext);
 
+    //function for highlighting which tab the user is on in the nav bar
     function changeCurrent(id){
         var elements = document.getElementsByClassName("current");
         if(elements.length > 0){
@@ -15,7 +18,9 @@ function Home() {
         document.getElementById(id).classList.add("current");
     }
 
+    //function for organizing the html returned
     function presentMenu() {
+        //audience can choose to watch a current or old video
         if(pvA === "Audience"){
             return (
             <div class="major-choice-2">
@@ -37,7 +42,7 @@ function Home() {
                 </Link>
             </div>
             )
-            
+        //presenter can choose to make a new presentation or prepare one that is already made  
         }else if(pvA === "Presenter"){
             return (
                 <div class="major-choice-2">

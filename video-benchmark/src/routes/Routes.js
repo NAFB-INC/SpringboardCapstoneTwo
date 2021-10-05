@@ -7,6 +7,8 @@ import JoinPresentationMenu from "../menus/JoinPresentationMenu";
 import AudienceMenu from "../menus/AudienceMenu";
 import VideoSelectionForm from "../forms/VideoSelectionForm";
 
+//basic route list for the application
+//rendered in main App
 function Routes() {
 
   return (

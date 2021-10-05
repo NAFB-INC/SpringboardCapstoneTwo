@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+//custom hook for handling form data in React
 const useFields = (initialState) => {
   const [formData, setFormData] = useState(initialState);
 

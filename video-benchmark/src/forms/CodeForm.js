@@ -4,6 +4,7 @@ import useFields from "../hooks/useFields";
 import UserContext from "../hooks/UserContext";
 import VideoAPI from "../api/VideoAPI";
 
+//form the audience uses to join a presentation
 function AudienceCodeForm({ setCode, presenter }) {
     const { setStage } = useContext(UserContext);
     const [errors,setErrors] = useState([]);
@@ -16,6 +17,8 @@ function AudienceCodeForm({ setCode, presenter }) {
     const handleSubmit = e => {
         e.preventDefault();
 
+        //checks if input code is valid
+        //adds password too or undefined, based on user
         async function checkCode(){
             return (await VideoAPI.findIfValidCode(formData.audience_code,formData.presenter_pass));
         }
@@ -24,6 +27,7 @@ function AudienceCodeForm({ setCode, presenter }) {
         checkCode().then((tOrF)=>{
             valid=tOrF;
 
+            //sets code and moves to next stage if it is a valid code
             if(presenter){
                 if(valid){
                     setCode(formData.audience_code);
@@ -41,9 +45,12 @@ function AudienceCodeForm({ setCode, presenter }) {
             }
         });
 
+        //resets form and shows errors if code is not valid
+        //well actually it resets either way, but user doesn't see it if stage changes
         resetForm();
     }
 
+    //presenter gets a password form data
     if(presenter){
         return (
             <div className="AudienceCodeForm">

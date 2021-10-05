@@ -10,27 +10,32 @@ const port = 3001;
 app.use(cors({
     origin: 'http://localhost:3000'
 }));
+
 app.use(express.json());
 app.use(express.static('public'));
 
+//Endpoint for fetching the video codes
 app.get('/codes', (req, res) => {
     let rawData = fs.readFileSync('data.json');
     let codes = JSON.parse(rawData)["codes"];
     res.send(codes);
 });
 
+//Endpoint for fetching all the video objects
 app.get('/videos', (req, res) => {
     let rawData = fs.readFileSync('data.json');
     let videos = JSON.parse(rawData)["videos"];
     res.send(videos);
 });
 
+//Endpoint for fetching the current/upcoming presentations
 app.get('/upcoming', (req, res) => {
     let rawData = fs.readFileSync('data.json');
     let upcoming = JSON.parse(rawData)["upcoming"];
     res.send(upcoming);
 });
 
+//Endpoint for fetching all the questions
 app.get('/questions', (req, res) => {
     let rawData = fs.readFileSync('data.json');
     let questions = JSON.parse(rawData)["questions"];
@@ -38,7 +43,7 @@ app.get('/questions', (req, res) => {
 });
 
 
-
+//Endpoint for replacing all the video codes
 app.post('/codes', (req, res) => {
     let myData = JSON.parse(fs.readFileSync('data.json'));
     let codes = req.body;
@@ -53,6 +58,8 @@ app.post('/codes', (req, res) => {
       })
     res.send(`OK`);
 });
+
+//Endpoint for replacing all of the video objects
 app.post('/videos', (req, res) => {
     let myData = JSON.parse(fs.readFileSync('data.json'));
     let videos = req.body;
@@ -67,6 +74,8 @@ app.post('/videos', (req, res) => {
       })
     res.send(`OK`);
 });
+
+//Endpoint for replacing all of the upcoming presentations
 app.post('/upcoming', (req, res) => {
     let myData = JSON.parse(fs.readFileSync('data.json'));
     let upcoming = req.body;
@@ -81,6 +90,8 @@ app.post('/upcoming', (req, res) => {
       })
     res.send(`OK`);
 });
+
+//Endpoint for replacing all of the questions
 app.post('/questions', (req, res) => {
     let myData = JSON.parse(fs.readFileSync('data.json'));
     let questions = req.body;

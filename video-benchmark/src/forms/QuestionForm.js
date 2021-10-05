@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import VideoAPI from "../api/VideoAPI";
 import useFields from "../hooks/useFields";
 
+//form used for submitting new questions
 function QuestionForm({presID,questions,setQuestions,setRevealQBox,setFeedback,fetchQuestions}) {
     const [errors,setErrors] = useState([]);
     const [formData, handleChange, resetForm] = useFields({
         question: ''
     })
 
+    //will filter out empties and exact repeats
     const handleSubmit = e => {
         e.preventDefault();
         if(!formData.question){
@@ -21,6 +23,7 @@ function QuestionForm({presID,questions,setQuestions,setRevealQBox,setFeedback,f
                 }
             }
         }
+        //if not empty, submits to the api along with the presentation code of whatever you are currently watching
         if(errors.length < 1){
             VideoAPI.addQuestion(presID,formData.question);
             fetchQuestions();

@@ -2,6 +2,7 @@ import "./css/VideoSelectionForm.css";
 import React, { useState } from "react";
 import useFields from "../hooks/useFields";
 
+//form used to search for past videos
 function VideoSelectionForm() {
     const [errorsCode,setErrorsCode] = useState([]);
     const [errorsSearch,setErrorsSearch] = useState([]);
@@ -10,11 +11,13 @@ function VideoSelectionForm() {
         key_phrase: ''
     })
 
+    //TODO
     const handleSubmitCode = e => {
         e.preventDefault();
         resetForm();
     }
     
+    //TODO
     const handleSubmitSearch = e => {
         e.preventDefault();
         resetForm();

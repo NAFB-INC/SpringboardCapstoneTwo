@@ -1,8 +1,9 @@
 import "./css/PresentVsAudienceForm.css";
 import React from "react";
 
+//simple "form" that isn't actually a form to determine user type.
+//changes what is shown by the home menu
 function PresentVsAudienceForm({setPvA}) {
-
     return (
         <div className="PresentVsAudienceForm">
             Are you the Presenter or the Audience?

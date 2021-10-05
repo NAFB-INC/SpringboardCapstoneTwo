@@ -1,6 +1,4 @@
 const axios = require("axios");
-const BSON = require('bson');
-const Long = BSON.Long;
 
 class VideoAPI {
     static BASE_URL = "http://localhost:3001/"
@@ -10,6 +8,8 @@ class VideoAPI {
 
     static questions = {}
 
+    //for sending data while streaming
+    //subject to future change
     static async addContent(code,blobToAdd){
         if(this.upcoming[code]){
             let video = this.upcoming[code];
@@ -33,6 +33,9 @@ class VideoAPI {
         console.log("input:",url);
         console.log("output:",res.data);
     }
+
+    //for fetching content/ recieving content while streaming
+    //currently unused, subject to change
     static async fetchLiveContent(code,index){
         let data_upcoming = await axios.get(`${this.BASE_URL}upcoming`);
         this.upcoming=data_upcoming.data;
@@ -53,6 +56,7 @@ class VideoAPI {
         }
     }
 
+    //fills local objects, and ensures consistency with API server
     static async resetDataLibrary(){
         console.log('resetting library');
         let data_codes = await axios.get(`${this.BASE_URL}codes`);
@@ -76,6 +80,9 @@ class VideoAPI {
         console.log(this.upcoming);
     }
 
+    //functions for checking if the input presentation code is a valid one
+    //returns true or false
+    //doubles for presenter and audience
     static async findIfValidCode(code,pass=null){
         if(!pass){
             if(this.codes[code]){
@@ -98,6 +105,8 @@ class VideoAPI {
         }
     }
 
+    // finds the full video object either in past presentations or 
+    // current/planned ones
     static async fetchVideo(code){
         console.log("fetching video..");
 
@@ -114,6 +123,8 @@ class VideoAPI {
         return null;
     }
 
+    //finds the questions related to the specific presentation
+    //updates self with api for consistency sake, but there is a better way to ensure this with data available events
     static async fetchQuestions(code){
         let data_questions = await axios.get(`${this.BASE_URL}questions`);
         this.questions=data_questions.data;
@@ -125,6 +136,7 @@ class VideoAPI {
         }
     }
 
+    //adds a new question from audience for presenter to answer
     static async addQuestion(code,questionText){
         //redundant code to ensure api consistency, but kept here just in case of refactoring later
         let data_questions = await axios.get(`${this.BASE_URL}questions`);
@@ -140,6 +152,8 @@ class VideoAPI {
         await axios.post(`${this.BASE_URL}questions`,this.questions);
     }
 
+    //function for creating a brand new presentation object
+    //updates api with it, then returns the new presentation code
     static async createPresentation(inputValues){
         let first = inputValues.first || "First";
         let last = inputValues.last || "Last";
@@ -175,8 +189,10 @@ class VideoAPI {
         return(newCode);
     }
 
+    //helper function for generating a presentation code that is not yet in use
+    //simirandom, if already taken, generates a new one.
     static async generateCode(){
-        let letters = ["a","b","c","d","f","g","k","m","n","p","r","t","W","X","Y","Z","A","D","G","R"];
+        let letters = ["a","b","c","d","f","g","k","m","n","p","r","t","W","X","Y","Z","A","J","K","D","G","R","Q"];
         let variable = false;
 
 
@@ -202,6 +218,7 @@ class VideoAPI {
         }
     }
 
+    //function for creating a benchmark when a question is answered
     static async addBenchmark(code,num,time){
         if(this.upcoming[code]){
             console.log(num,time);
@@ -215,6 +232,7 @@ class VideoAPI {
         await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
     }
 
+    //function for removing the previous benchmark and question if it is skipped by the presenter
     static async removeBenchmark(code,num){
         if(this.upcoming[code]){
             delete this.upcoming[code]["benchmarks"][num];

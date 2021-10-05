@@ -3,6 +3,7 @@ import React,{ useContext,useState } from "react";
 import { NavLink } from "react-router-dom";
 import UserContext from "../hooks/UserContext";
 
+//navbar component, for fast links to home, watch, and prepare
 function Navigation() {
     const { setPvA,setStage } = useContext(UserContext);
 
@@ -11,6 +12,7 @@ function Navigation() {
         setStage(1);
     }
 
+    //changes which tab is highlighted
     function changeCurrent(e){
         var elements = document.getElementsByClassName("current");
         if(elements.length > 0){
@@ -19,6 +21,7 @@ function Navigation() {
         e.target.parentNode.classList.add("current");
     }
 
+    //uses the window to make sure the correct tab is highlighted after using links instead of internal data
     function updateCurrentTab(){
         if(window.location.href.includes("presenter")){
             document.getElementById("presenter-link").classList.add("current");
@@ -29,6 +32,7 @@ function Navigation() {
         }
     }
 
+    //slight delay on tab update because ?????
     useState(()=>{
         setTimeout(()=>{
             try{
@@ -37,6 +41,7 @@ function Navigation() {
         },100)
     });
 
+    //rendition of navbar
     return (
         <nav className="nav-bar">
             <span className="nav-link" id="home-link">

@@ -117,3 +117,17 @@ video{
     top:38.8%;
     left:0%;
 }
+
+.Blink {
+    animation: blinker 1.5s cubic-bezier(.4, 0, 1, 1) infinite alternate; 
+    color:red;
+    position: absolute;
+    left:7%;
+    top:10%;
+    font-size: 120%;
+}
+
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

@@ -5,6 +5,7 @@ import useFields from "../hooks/useFields";
 import UserContext from "../hooks/UserContext";
 import VideoAPI from "../api/VideoAPI";
 
+// form used when creating a new presentation
 function PresentationForm() {
     const { baseURL } = useContext(UserContext);
     const [errors,setErrors] = useState([]);
@@ -18,6 +19,8 @@ function PresentationForm() {
         presenter_pass: ''
     })
 
+    //will store the presentation in session storage, just in case you navigate away early
+    //also avoids verifying password again
     useEffect(()=>{
         let myStoredCode = sessionStorage.getItem("code");
         if(myStoredCode && sessionStorage.getItem("secure_hash")==="not_secure"){
@@ -25,6 +28,7 @@ function PresentationForm() {
         }
     },[]);
 
+    //function that sends data to api for creation then returns code (onSubmit)
     function createPresentation(){
         async function create(){
             return(
@@ -44,6 +48,8 @@ function PresentationForm() {
         });
     }
 
+    //cute little button animation upon successful submit, but also all the possible errors.
+    //name and presentation title are not actually required, and can be ignored on submitting twice
     const handleSubmit = e => {
         e.preventDefault();
         console.log("submitted");
@@ -66,7 +72,7 @@ function PresentationForm() {
             }
         }
 
-
+        //if no errors, create
         if(newErrors.length === 0){
             try{
                 setErrors([]);
@@ -84,6 +90,8 @@ function PresentationForm() {
         }
     }
 
+    // if we dont have a code returned yet, display the form.
+    //otherwise, display the code.
     if(typeof yourCode !== "string"){
         return (
             <div className="PresentationForm">
