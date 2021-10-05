@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="QuestionForm"
+  >
+    <form>
+      <label
+        for="question"
+      >
+        Question: 
+      </label>
+      <input
+        name="question"
+        placeholder="What did you mean by ___?"
+        type="text"
+        value=""
+      />
+      <div />
+      <button
+        class="present-choice-btn-sm"
+        id="submit-q"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</DocumentFragment>
+`;

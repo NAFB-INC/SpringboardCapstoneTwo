@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="AudienceCodeForm"
+    >
+      <div
+        class="form-text"
+      >
+        Have a presentation code? Please enter it here!
+      </div>
+      <form>
+        <div
+          class="form-box"
+        >
+          <label
+            for="audience_code"
+          >
+            Code: 
+          </label>
+          <input
+            name="audience_code"
+            placeholder="abc123"
+            type="text"
+            value=""
+          />
+        </div>
+        <div />
+        <button
+          class="submit-btn"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;

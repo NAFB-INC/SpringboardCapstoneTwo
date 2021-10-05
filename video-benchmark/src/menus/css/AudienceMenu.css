@@ -1,0 +1,25 @@
+.AudienceMenu{
+    position:absolute;
+    margin-top:5%;
+    margin-left:5%;
+    margin-right:5%;
+    padding-top:2%;
+    height:70%;
+    width:88%;
+    border:5px solid #6D2E46;
+    background-color: #ECE2D0;
+}
+
+.id-title{
+    position:absolute;
+    left:90%;
+    font-size:120%;
+    font-weight:bold;
+    top:1%;
+}
+
+.id-title span{
+    font-size:120%;
+    font-weight:bolder;
+    text-decoration: underline;
+}

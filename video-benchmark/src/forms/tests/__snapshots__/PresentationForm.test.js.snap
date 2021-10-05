@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="PresentationForm"
+    >
+      <div
+        class="form-header"
+      >
+        Let's create a new presentation!
+      </div>
+      <div
+        class="info-box"
+      >
+        <p>
+          Once created, you can access your presentation using the presentation code you will be given, and the password you set. Don't lose it!
+        </p>
+        <p>
+          You can start your presentation at any time in the next 
+          <b>
+            30 days
+          </b>
+           without needing to create a new one.
+        </p>
+        <p>
+          All you need to do is send that presentation code (or a direct audience link) to anyone you want to join!
+        </p>
+      </div>
+      <form>
+        <div
+          class="form-box"
+        >
+          <label
+            for="presentation_title"
+          >
+            Presentation Title: 
+          </label>
+          <input
+            autocomplete="presentation-title"
+            name="presentation_title"
+            placeholder="Major Budget Overhaul"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="form-box"
+        >
+          <label
+            for="presenter_name_first"
+          >
+            Presenter's First Name: 
+          </label>
+          <input
+            autocomplete="first-name"
+            name="presenter_name_first"
+            placeholder="Joe"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="form-box"
+        >
+          <label
+            for="presenter_name_last"
+          >
+            Presenter's Last Name: 
+          </label>
+          <input
+            autocomplete="last-name"
+            name="presenter_name_last"
+            placeholder="Smith"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="form-box"
+        >
+          <label
+            for="presenter_pass"
+          >
+            Presenter Password: 
+          </label>
+          <input
+            autocomplete="presenter-password"
+            name="presenter_pass"
+            placeholder="super secret"
+            type="password"
+            value=""
+          />
+        </div>
+        <div>
+          <small>
+            This will ensure only you can start the presentation. For demo purposes, do NOT use a secure password. Password security planned in future update.
+          </small>
+        </div>
+        <div
+          class="form-box"
+        >
+          <label
+            for="presentation_description"
+          >
+            [OPTIONAL] Presentation Description: 
+          </label>
+          <textarea
+            autocomplete="presentation-description"
+            name="presentation_description"
+            placeholder="Something needs to be done about our 1st class travel spending..."
+            type="text"
+          />
+        </div>
+        <br />
+        <div
+          class="errors"
+        />
+        <button
+          class="submit-button"
+        >
+          <div
+            class="container"
+          >
+            <div
+              class="tick"
+            >
+              Submit
+            </div>
+          </div>
+        </button>
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;

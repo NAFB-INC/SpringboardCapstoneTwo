@@ -67,12 +67,12 @@ function JoinPresentationMenu({myUser}) {
                 );
             } else {
                 return(
-                    <div>
+                    <div className="found-video">
                         Found a match!
-                        <div>
+                        <div className="video-card">
                             <div><Link to={`/${user}/${code}`}> {video.title} </Link> </div>
-                            <div>presented by {video.presenter.first} {video.presenter.last}</div>
-                            <div><small>{video.duration}</small></div>
+                            <div className="video-card-sub">presented by {video.presenter.first} {video.presenter.last}</div>
+                            <div className="video-card-sub"><small>{video.duration}</small></div>
                         </div>
                         
                     </div>

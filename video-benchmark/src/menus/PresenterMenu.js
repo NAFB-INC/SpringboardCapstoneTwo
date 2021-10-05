@@ -1,3 +1,4 @@
+import "./css/PresenterMenu.css";
 import React,{ useEffect, useState } from "react";
 import { useParams,Redirect } from "react-router-dom";
 import VideoBox from "../video/VideoBox";
@@ -25,8 +26,7 @@ function PresenterMenu() {
     if(sessionStorage.getItem('code')===presID && sessionStorage['secure_hash']==='not_secure'){
         return (
             <div className="PresenterMenu">
-                PresenterMenu
-                <div> Presentation: {presID} </div>
+                <div className="id-title"> Presentation: <span>{presID}</span> </div>
                 <VideoBox user="presenter" presID={presID} setTime={setTime}/>
                 <QuestionBoxPresenter presID={presID} questions={questions} time={time}/>
             </div>

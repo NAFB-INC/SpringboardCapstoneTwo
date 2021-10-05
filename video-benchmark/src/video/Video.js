@@ -1,3 +1,4 @@
+import "./css/Video.css";
 import React, { useEffect,useState } from "react";
 import VideoAPI from "../api/VideoAPI";
 // var ffmpeg = require('ffmpeg');
@@ -25,21 +26,38 @@ function Video({user,presID,setTime}) {
     useEffect(()=>{
         if(user === "presenter")
         {
-            // const socket = new WebSocket("ws://localhost:3002");
-            // socket.onopen = function(e) {
-            //     alert("[open] Connection established");
-            //     alert("Sending to server");
-            //     socket.send("My name is John");
-            // };
             let camera_button = document.querySelector("#start-camera");
             let camera_button_stop = document.querySelector("#stop-camera");
             let start_button = document.querySelector("#start-record");
             let stop_button = document.querySelector("#stop-record");
-            let download_link = document.querySelector("#download-video");
             let video_player = document.querySelector("#video");
             let camera_stream = null;
             let media_recorder = null;
             let blobs_recorded = [];
+
+
+            const getFrame = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video_player.videoWidth;
+                canvas.height = video_player.videoHeight;
+                canvas.getContext('2d').drawImage(video_player, 0, 0);
+                const data = canvas.toDataURL('image/png');
+                return data;
+            }
+
+            // const WS_URL = "ws://localhost:3002"
+            // const FPS = 3;
+            // const ws = new WebSocket(WS_URL);
+            // ws.onopen = function(e) {
+            //     console.log(`Connected to ${WS_URL}`);
+            //     setInterval(() => {
+            //         let data = getFrame();
+            //         console.log("data sent:");
+            //         console.log(data);
+            //         ws.send(`${data}`);
+            //     }, 1000 / FPS);
+            // };
+            
 
             console.log(`camerabutton: ${camera_button}`,`camerabuttonstop: ${camera_button_stop}`)
             
@@ -61,6 +79,18 @@ function Video({user,presID,setTime}) {
                 });
 
             start_button.addEventListener('click', function() {
+                const WS_URL = "ws://localhost:3002"
+                const FPS = 10;
+                const ws = new WebSocket(WS_URL);
+                ws.onopen = function(e) {
+                    console.log(`Connected to ${WS_URL}`);
+                    setInterval(() => {
+                        let data = getFrame();
+                        console.log("data sent:");
+                        console.log(data);
+                        ws.send(`${data}`);
+                    }, 1000 / FPS);
+                };
                 start_button.hidden=true;
                 stop_button.hidden=false;
                 camera_button_stop.hidden=true;
@@ -75,7 +105,7 @@ function Video({user,presID,setTime}) {
                     // blobs_recorded.push(e.data);
                     try{
                         if (e.data && e.data.size > 0) {
-                            // socket.send(e.data);
+                            // ws.send(e.data);
                             VideoAPI.addContent(presID,e.data);
                         }
                     }catch(err){
@@ -86,23 +116,31 @@ function Video({user,presID,setTime}) {
                 // event : recording stopped & all blobs sent
                 media_recorder.addEventListener('stop', function() {
                 	// create local object URL from the recorded video blobs
-                	let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
-                	download_link.href = video_local;
+                	// let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
                 });
             
                 // start recording with each recorded blob having 1 second video
                 media_recorder.start(1000);
             });
             stop_button.addEventListener('click', function() {
+                media_recorder.stop();
+
                 start_button.hidden=true;
                 stop_button.hidden=true;
-                download_link.hidden=false;
                 camera_button_stop.hidden=false;
-                media_recorder.stop();
                 setRecording(false); 
             });
         }
         else if(user === "audience"){
+            const img = document.querySelector('img');
+        
+            const WS_URL = 'ws://localhost:3002';
+            const ws = new WebSocket(WS_URL);
+            ws.onopen = () => console.log(`Connected to ${WS_URL}`);
+            ws.onmessage = message => {
+                // set the base64 string to the src tag of the image
+                img.src = message.data;
+            }
             let video_playback = document.querySelector("#video-playback");
             let video_feedback = document.querySelector("#video-feedback");
             if(!video_playback.srcObject){
@@ -111,15 +149,18 @@ function Video({user,presID,setTime}) {
         }
     },[presID]);
 
-    useEffect(()=>{
-        fetchBlobs();
-        setTimeout(()=>{
-            startPlayback();
-        },2000);
+    useEffect(()=>{ 
+        if(user==="audience"){
+            fetchBlobs();
+            setTimeout(()=>{
+                startPlayback();
+            },2000);
+        }
     },[]);
 
     async function fetchNewBlob(id,index){
         let newBlob = await VideoAPI.fetchLiveContent(id,index);
+
         console.log(`received blob: ${newBlob}`);
         if(newBlob){
             inputBlobs[index]=newBlob;
@@ -133,10 +174,12 @@ function Video({user,presID,setTime}) {
             let video_playback = document.querySelector("#video-playback");
             console.log(`attempting to play blob ${i}`)
             try{
-                setTime(i*2);
+                if(user==="presenter"){
+                    setTime(i*2);
+                }
                 // console.log("new source: ",URL.createObjectURL(inputBlobs[i]))
                 console.log(inputBlobs[i])
-                // video_playback.src = URL.createObjectURL(inputBlobs[i]);
+                // video_playback.src = inputBlobs[i];
                 video_playback.src = URL.createObjectURL(new Blob(inputBlobs, { type: 'video/webm' }))+`#t=${i*2}`;
                 video_playback.load();
                 video_playback.play();
@@ -174,19 +217,39 @@ function Video({user,presID,setTime}) {
         if(user==="presenter"){
             return(
                 <div>
-                    <button id="start-camera">Start Camera</button> <button id="stop-camera" hidden>Stop Camera</button>
-                    <video id="video" width="320" height="240" autoPlay hidden></video>
-                    <button id="start-record" hidden>Start Recording</button>
-                    <button id="stop-record" hidden>Stop Recording</button>
-                    <a id="download-video" download="test.webm" hidden>Download Video</a>
+                    <img id="playback" src=""></img>
+                    <img id="playback2" src=""></img>
+                    <div id="presenter-video-bounder">
+                        <div className="outer-border">
+                            <div className="mid-border">
+                                <div className="iner-border">
+                                    <video id="video" width="100%" height="100%" autoPlay hidden muted></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="start-camera" className="present-choice-btn">Start Camera</button> 
+                    <button id="stop-camera" className="present-choice-btn" hidden>Stop Camera</button>
+                    <button id="start-record" className="present-choice-btn" hidden>Start Recording</button>
+                    <button id="stop-record" className="present-choice-btn" hidden>Stop Recording</button>
                     {recording?<div>Recording</div>:null}
                 </div>
             )
+            // <a id="download-video" download="test.webm" hidden>Download Video</a>
         }else if(user==="audience"){
             return(
                 <div>
                     <div id="video-feedback"></div>
-                    <video id="video-playback" width="320" height="240"></video>
+                    <div id="audience-video-bounder">
+                        <div className="outer-border">
+                            <div className="mid-border">
+                                <div className="inner-border">
+                                    <img id="video-playback" src="" width="100%" height="100%"></img>
+                                    <video id="" src="" width="100%" height="100%"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         }

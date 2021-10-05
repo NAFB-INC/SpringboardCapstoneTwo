@@ -32,7 +32,6 @@ function QuestionForm({presID,questions,setQuestions,setRevealQBox,setFeedback,f
 
     return (
         <div className="QuestionForm">
-            New Question Form
             <form onSubmit={handleSubmit}>
                     <label htmlFor="question">Question: </label>
                     <input name="question" type="text" placeholder="What did you mean by ___?" value={formData.question} onChange={handleChange}></input>
@@ -41,7 +40,7 @@ function QuestionForm({presID,questions,setQuestions,setRevealQBox,setFeedback,f
                             <li className="error" key={`error${e}`}>{e}</li>
                         ))}
                     </div>
-                    <button>Submit</button>
+                    <button id="submit-q" className="present-choice-btn-sm">Submit</button>
             </form>
         </div>
     );

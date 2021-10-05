@@ -1,15 +1,5 @@
 "use strict";
 
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 3002 });
-wss.on('connection', (ws, req) => {
-  const fileStream = fs.createWriteStream("./file.bin", { flags: 'a' });
-  ws.on('message', message => {
-    // Only raw blob data can be sent
-    fileStream.write(Buffer.from(new Uint8Array(message)));
-  });
-});
-
 const express = require("express");
 const app = express();
 const cors = require('cors');
@@ -21,6 +11,7 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }));
 app.use(express.json());
+app.use(express.static('public'));
 
 app.get('/codes', (req, res) => {
     let rawData = fs.readFileSync('data.json');
@@ -103,6 +94,31 @@ app.post('/questions', (req, res) => {
         //file written successfully
       })
     res.send(`OK`);
+});
+
+
+
+
+
+const WebSocket = require('ws');
+const wsServer = new WebSocket.Server({ port: 3002 });
+let connectedClients = [];
+
+wsServer.on('connection', (ws, req) => {
+    console.log('Connected');
+    // add new connected client
+    connectedClients.push(ws);
+    // listen for messages from the streamer, the clients will not send anything so we don't need to filter
+    ws.on('message', (data) => {
+        // send the base64 encoded frame to each connected ws
+        connectedClients.forEach((ws, i) => {
+            if (ws.readyState === ws.OPEN) { // check if it is still connected
+                ws.send(data.toString()); // send
+            } else { // if it's not connected remove from the array of connected ws
+                connectedClients.splice(i, 1);
+            }
+        });
+    });
 });
 
 app.listen(port, () => {

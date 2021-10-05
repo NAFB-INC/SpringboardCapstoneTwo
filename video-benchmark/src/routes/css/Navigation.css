@@ -22,11 +22,11 @@
     background-color:#A26769;
 }
 
-a:hover {
+.nav-bar a:hover {
     color: #ECE2D0;
 }
 
-a{
+.nav-bar a{
     color:white;
 }
 

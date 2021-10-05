@@ -1,71 +1,38 @@
 const axios = require("axios");
+const BSON = require('bson');
+const Long = BSON.Long;
 
 class VideoAPI {
     static BASE_URL = "http://localhost:3001/"
     static codes = {};
-    static videos = [
-        {
-            title:"How to Program",
-            duration:"5:20",
-            presenter:{
-                first:"John",
-                last:"Jacob"
-            },
-            code:"abc123",
-            description:"",
-            content:[],
-            benchmarks:[
-                {
-                    question_id:1,
-                    time_stamp:120
-                },
-                {
-                    question_id:2,
-                    time_stamp:160
-                }
-            ]
-        }
-    ]
-    static upcoming = {
-        "ZAfZ8n": {
-            title:"My Presentation Title",
-            presenter:{
-                first:"Bob",
-                last:"Bings"
-            },
-            description:"A simple sample simile",
-            created:"now",
-            code:"ZAfZ8n",
-            pass:"123",
-            content:{
-                blobs:[],
-                lock:false
-            },
-            benchmarks:[]
-        }
-    };
+    static videos = []
+    static upcoming = {};
 
-    static questions = {
-        "abc123":{
-            1:"Why is the sky blue?",
-            2:"What is 10 times 10?"
-        }
-    }
+    static questions = {}
 
     static async addContent(code,blobToAdd){
-        console.log("adding blob to api");
         if(this.upcoming[code]){
             let video = this.upcoming[code];
-            while(video.content.lock){
-            }
-            video.content.lock=true;
-            video.content.blobs.push(blobToAdd);
-            video.content.lock=false;
+            // if(video.content.lock){
+            //     while(video.content.lock){
+            //         if(!video.content.lock){
+            //             video.content.lock=true;
+            //             video.content.blobs.push(blobToAdd);
+            //             video.content.lock=false;
+            //         }
+            //     }
+            // }else{
+            //     video.content.lock=true;
+            //     video.content.blobs.push(blobToAdd);
+            //     video.content.lock=false;
+            // }
         }
-        await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
-        console.log("Current data: ",this.upcoming[code].content.blobs)
-    }
 
+        let url = URL.createObjectURL(blobToAdd);
+        let res = await axios.post(`${this.BASE_URL}test`,url);
+        console.log("input:",url);
+        console.log("output:",res.data);
+    }
     static async fetchLiveContent(code,index){
         let data_upcoming = await axios.get(`${this.BASE_URL}upcoming`);
         this.upcoming=data_upcoming.data;
@@ -74,7 +41,12 @@ class VideoAPI {
             let video = this.upcoming[code];
             let res = video.content.blobs[index];
             if(res){
-                return res;
+                const doc_2 = JSON.parse(res);
+                let myResult = "";
+                for(let key of Object.keys(doc_2)){
+                    myResult = myResult+doc_2[key];
+                }
+                return myResult;
             }else{
                 return null;
             }

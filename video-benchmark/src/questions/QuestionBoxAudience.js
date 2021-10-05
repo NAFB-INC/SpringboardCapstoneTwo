@@ -1,3 +1,4 @@
+import "./css/QuestionBox.css";
 import React, { useEffect, useState } from "react";
 import QuestionForm from "../forms/QuestionForm";
 
@@ -15,10 +16,9 @@ function QuestionBoxAudience({questions,setQuestions,fetchQuestions,presID}) {
 
     return (
         <div className="QuestionBoxAudience">
-            QuestionBox - Audience
             <div>{feedback}</div>
             {revealQBox?
-                <div>
+                <div className="q-bounder">
                     <QuestionForm 
                         questions={questions} 
                         setQuestions={setQuestions} 
@@ -27,12 +27,12 @@ function QuestionBoxAudience({questions,setQuestions,fetchQuestions,presID}) {
                         fetchQuestions={fetchQuestions} 
                         presID={presID}
                     />
-                    <button onClick={()=>{setRevealQBox(!revealQBox)}}>Never Mind</button>
+                    <button id="nvm-q" className="present-choice-btn-sm" onClick={()=>{setRevealQBox(!revealQBox)}}>Never Mind</button>
                 </div>
                 :
-                <div>
+                <div className="q-bounder">
                     <div>Have a question for the presenter? Ask away!</div>
-                    <button onClick={()=>{setRevealQBox(!revealQBox)}}>I have a question!</button>
+                    <button id="have-q" className="present-choice-btn-2" onClick={()=>{setRevealQBox(!revealQBox)}}>I have a question!</button>
                 </div>
             }
         </div>

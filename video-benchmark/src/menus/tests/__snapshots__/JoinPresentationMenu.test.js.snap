@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="JoinPresentationMenu"
+    >
+      <div>
+        <div
+          class="AudienceCodeForm"
+        >
+          <div
+            class="form-text"
+          >
+            Have a presentation code and password? Please enter it here!
+          </div>
+          <form>
+            <div
+              class="form-box"
+            >
+              <label
+                for="audience_code"
+              >
+                Code: 
+              </label>
+              <input
+                autocomplete="audience-code"
+                name="audience_code"
+                placeholder="abc123"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="form-box"
+            >
+              <label
+                for="presenter_pass"
+              >
+                Password: 
+              </label>
+              <input
+                autocomplete="presenter-password"
+                name="presenter_pass"
+                placeholder="xyzpdq"
+                type="password"
+                value=""
+              />
+            </div>
+            <div />
+            <button
+              class="submit-btn"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

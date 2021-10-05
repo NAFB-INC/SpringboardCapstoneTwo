@@ -22,7 +22,7 @@ function VideoSelectionForm() {
 
     return (
         <div className="VideoSelectionForm">
-            <div class="form-text">Have a presentation code? Find what you are looking for right away with that!</div>
+            <div className="form-text">Have a presentation code? Find what you are looking for right away with that!</div>
             <form onSubmit={handleSubmitCode}>
                 <div className="form-box">
                     <label htmlFor="audience_code">Code: </label>
@@ -38,7 +38,7 @@ function VideoSelectionForm() {
             <br/>
             <hr/>
             <br/>
-            <div class="form-text">OR maybe you are looking for a person or topic?</div>
+            <div className="form-text">OR maybe you are looking for a person or topic?</div>
             <form onSubmit={handleSubmitSearch}>
                 <div className="form-box">
                     <label htmlFor="key_phrase">Phrase: </label>

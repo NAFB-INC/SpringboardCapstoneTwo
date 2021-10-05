@@ -9,3 +9,33 @@
     border:5px solid #6D2E46;
     background-color: #ECE2D0;
 }
+
+.found-video{
+    font-size: 130%;
+    overflow: auto;
+    border-top: 10px solid #471e2e;
+    border-bottom: 10px solid #471e2e;
+    height:92%;
+    padding-top:1%;
+    font-weight:bolder;
+}
+
+.video-card{
+    border:4px solid #6D2E46;
+    margin-left:35%;
+    margin-right:35%;
+    background-color:#CEBEBE;
+    padding:1%;
+    margin-top:1%;
+    font-weight: initial;
+}
+
+.video-card a{
+    font-size:110%;
+    text-decoration: none;
+}
+
+.video-card-sub{
+    font-size:80%;
+    font-style: italic;
+}

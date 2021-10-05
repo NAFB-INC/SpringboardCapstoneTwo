@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="App"
+  >
+    <div>
+      <nav
+        class="nav-bar"
+      >
+        <span
+          class="nav-link"
+          id="home-link"
+        >
+          <a
+            aria-current="page"
+            class="active"
+            href="/"
+          >
+            Home
+          </a>
+        </span>
+        <span
+          class="nav-link"
+          id="audience-link"
+        >
+          <a
+            href="/audience"
+          >
+            Watch
+          </a>
+        </span>
+        <span
+          class="nav-link"
+          id="presenter-link"
+        >
+          <a
+            href="/presenter"
+          >
+            Present
+          </a>
+        </span>
+      </nav>
+      <div
+        class="Routes"
+      >
+        <div
+          class="home"
+        >
+          <div
+            id="welcome"
+          >
+             Welcome to the Presentation Benchmarker!
+            <div
+              class="PresentVsAudienceForm"
+            >
+              Are you the Presenter or the Audience?
+              <div
+                class="major-choice-2"
+              >
+                <button
+                  class="major-choice-btn"
+                >
+                  I Am The Presenter
+                </button>
+                <button
+                  class="major-choice-btn"
+                >
+                  I Am Amongst The Audience
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

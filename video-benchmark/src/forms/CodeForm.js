@@ -47,7 +47,7 @@ function AudienceCodeForm({ setCode, presenter }) {
     if(presenter){
         return (
             <div className="AudienceCodeForm">
-                <div class="form-text">Have a presentation code and password? Please enter it here!</div>
+                <div className="form-text">Have a presentation code and password? Please enter it here!</div>
                 <form onSubmit={handleSubmit}>
                     <div className="form-box">
                         <label htmlFor="audience_code">Code: </label>
@@ -62,7 +62,7 @@ function AudienceCodeForm({ setCode, presenter }) {
                             <li className="error" key={`error${e}`}>{e}</li>
                         ))}
                     </div>
-                    <button class="submit-btn">Submit</button>
+                    <button className="submit-btn">Submit</button>
                 </form>
             </div>
         );
@@ -80,7 +80,7 @@ function AudienceCodeForm({ setCode, presenter }) {
                             <li className="error" key={`error${e}`}>{e}</li>
                         ))}
                     </div>
-                    <button class="submit-btn">Submit</button>
+                    <button className="submit-btn">Submit</button>
                 </form>
             </div>
         );

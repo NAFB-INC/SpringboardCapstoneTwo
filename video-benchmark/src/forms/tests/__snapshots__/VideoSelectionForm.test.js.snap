@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="VideoSelectionForm"
+  >
+    <div
+      class="form-text"
+    >
+      Have a presentation code? Find what you are looking for right away with that!
+    </div>
+    <form>
+      <div
+        class="form-box"
+      >
+        <label
+          for="audience_code"
+        >
+          Code: 
+        </label>
+        <input
+          name="audience_code"
+          placeholder="abc123"
+          type="text"
+          value=""
+        />
+      </div>
+      <div />
+      <button
+        class="submit-btn"
+      >
+        Submit
+      </button>
+    </form>
+    <br />
+    <hr />
+    <br />
+    <div
+      class="form-text"
+    >
+      OR maybe you are looking for a person or topic?
+    </div>
+    <form>
+      <div
+        class="form-box"
+      >
+        <label
+          for="key_phrase"
+        >
+          Phrase: 
+        </label>
+        <input
+          name="key_phrase"
+          placeholder="presentations"
+          type="text"
+          value=""
+        />
+      </div>
+      <div />
+      <button
+        class="submit-btn"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</DocumentFragment>
+`;

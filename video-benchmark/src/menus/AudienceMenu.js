@@ -1,3 +1,4 @@
+import "./css/AudienceMenu.css";
 import React,{ useState } from "react";
 import { useParams } from "react-router-dom";
 import VideoBox from "../video/VideoBox";
@@ -21,8 +22,7 @@ function AudienceMenu() {
 
     return (
         <div className="AudienceMenu">
-            Audience Menu
-            <div> Presentation: {presID} </div>
+            <div className="id-title"> Presentation: <span>{presID}</span> </div>
             <VideoBox user="audience" presID={presID}/>
             <QuestionBoxAudience questions={questions} setQuestions={setQuestions} fetchQuestions={fetchQuestions} presID={presID}/>
         </div>
