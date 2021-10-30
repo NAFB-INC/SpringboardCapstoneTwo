@@ -13,25 +13,25 @@ class VideoAPI {
     static async addContent(code,blobToAdd){
         if(this.upcoming[code]){
             let video = this.upcoming[code];
-            // if(video.content.lock){
-            //     while(video.content.lock){
-            //         if(!video.content.lock){
-            //             video.content.lock=true;
-            //             video.content.blobs.push(blobToAdd);
-            //             video.content.lock=false;
-            //         }
-            //     }
-            // }else{
-            //     video.content.lock=true;
-            //     video.content.blobs.push(blobToAdd);
-            //     video.content.lock=false;
-            // }
+            if(video.content.lock){
+                while(video.content.lock){
+                    if(!video.content.lock){
+                        video.content.lock=true;
+                        video.content.blobs.push(blobToAdd);
+                        video.content.lock=false;
+                    }
+                }
+            }else{
+                video.content.lock=true;
+                video.content.blobs.push(blobToAdd);
+                video.content.lock=false;
+            }
         }
 
-        let url = URL.createObjectURL(blobToAdd);
-        let res = await axios.post(`${this.BASE_URL}test`,url);
-        console.log("input:",url);
-        console.log("output:",res.data);
+        // let url = URL.createObjectURL(blobToAdd);
+        // let res = await axios.post(`${this.BASE_URL}test`,url);
+        // console.log("input:",url);
+        // console.log("output:",res.data);
     }
 
     //for fetching content/ recieving content while streaming
@@ -54,6 +54,13 @@ class VideoAPI {
                 return null;
             }
         }
+    }
+
+    static async getEndingRecording(code){
+        let video = this.upcoming[code];
+        let blobs_recorded = video.content.blobs;
+        let url = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
+        return url;
     }
 
     //fills local objects, and ensures consistency with API server
@@ -177,7 +184,12 @@ class VideoAPI {
             description:inputValues.desc,
             created:date,
             code:newCode,
-            pass:inputValues.pass
+            pass:inputValues.pass,
+            content:{
+                blobs:[],
+                lock:false
+            },
+            benchmarks:[]
         };
 
         this.upcoming[newCode] = newPresentation;
@@ -243,6 +255,25 @@ class VideoAPI {
         await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
     }
 
+    static async wrapUpPresentation(code,url){
+        if(this.upcoming[code]){
+            let presentation = this.upcoming[code];
+            this.videos.push({
+                title:presentation.title,
+		        duration: 0,
+		        presenter: presentation.presenter,
+		        code,
+		        description: presentation.description,
+		        content: null,
+		        benchmarks: presentation.benchmarks
+            });
+            delete this.upcoming[code];
+            await axios.post(`${this.BASE_URL}upcoming`,this.upcoming);
+            await axios.post(`${this.BASE_URL}videos`,this.videos);
+        }else{
+            throw new Error();
+        }
+    }
 }
 
 export default VideoAPI;

@@ -26,6 +26,7 @@ function VideoSelectionForm() {
     return (
         <div className="VideoSelectionForm">
             <div className="form-text">Have a presentation code? Find what you are looking for right away with that!</div>
+            <p className="red">NOTE: This part of the application does not currently function, as the hassle and costs of storing video data is too large.</p>
             <form onSubmit={handleSubmitCode}>
                 <div className="form-box">
                     <label htmlFor="audience_code">Code: </label>

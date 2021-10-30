@@ -64,8 +64,6 @@ function Video({user,presID,setTime}) {
             //     }, 1000 / FPS);
             // };
             
-
-            console.log(`camerabutton: ${camera_button}`,`camerabuttonstop: ${camera_button_stop}`)
             
             //starts camera
             camera_button.addEventListener('click', async function() {
@@ -96,8 +94,6 @@ function Video({user,presID,setTime}) {
                     console.log(`Connected to ${WS_URL}`);
                     setInterval(() => {
                         let data = getFrame();
-                        console.log("data sent:");
-                        console.log(data);
                         ws.send(`${data}`);
                     }, 1000 / FPS);
                 };
@@ -112,10 +108,11 @@ function Video({user,presID,setTime}) {
             
                 // event : new recorded video blob available 
                 media_recorder.addEventListener('dataavailable', function(e) {
-                    // blobs_recorded.push(e.data);
+                    //blobs_recorded.push(e.data);
                     try{
                         if (e.data && e.data.size > 0) {
                             // ws.send(e.data);
+                            console.log("sending");
                             VideoAPI.addContent(presID,e.data);
                         }
                     }catch(err){
@@ -125,8 +122,41 @@ function Video({user,presID,setTime}) {
             
                 // event : recording stopped & all blobs sent
                 media_recorder.addEventListener('stop', function() {
-                	// create local object URL from the recorded video blobs
-                	// let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
+
+                    stopBothVideoAndAudio(video_player.srcObject);
+                    video_player.srcObject=null;
+                    camera_button_stop.hidden=true;
+
+                    // create local object URL from the recorded video blobs
+                    VideoAPI.getEndingRecording(presID).then((vid)=>{
+                        let download = document.querySelector("#dl-link");
+                        download.href = vid;
+                        download.hidden=false;
+
+                        var xhr = new XMLHttpRequest;
+                        xhr.responseType = 'blob';
+
+                        xhr.onload = function() {
+                           var recoveredBlob = xhr.response;
+                           console.log(1);
+                        
+                           var reader = new FileReader;
+                           console.log(2);
+
+                           reader.onload = function() {
+                                console.log(3);
+                                var blobAsDataURL = reader.result;
+                                VideoAPI.wrapUpPresentation(presID,blobAsDataURL).then(()=>{
+                                    VideoAPI.fetchVideo(presID).then((video)=>{console.log(video)})
+                                });
+                           };
+                       
+                           reader.readAsDataURL(recoveredBlob);
+                        };
+
+                        xhr.open('GET', vid);
+                        xhr.send();
+                    });
                 });
             
                 // start recording with each recorded blob having 1 second video
@@ -252,10 +282,10 @@ function Video({user,presID,setTime}) {
                     <button id="stop-camera" className="present-choice-btn" hidden>Stop Camera</button>
                     <button id="start-record" className="present-choice-btn" hidden>Start Recording</button>
                     <button id="stop-record" className="present-choice-btn" hidden>Stop Recording</button>
+                    <a id="dl-link" className="present-choice-btn" hidden download>Download Recording</a>
                     {recording?<b class="text-danger Blink">&#11044;</b>:null}
                 </div>
             )
-            // <a id="download-video" download="test.webm" hidden>Download Video</a>
         }else if(user==="audience"){
             return(
                 <div>
